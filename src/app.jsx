@@ -5,10 +5,17 @@ var Firebase = require('firebase');
 var rootUrl = 'https://amber-torch-8478.firebaseio.com/';
 
 var Header = require('./header');
+var List = require('./list');
 
 var App = React.createClass({
 
   mixins: [ ReactFire ],
+
+  getInitialState: function(){
+    return {
+      items: []
+    }
+  },
 
   componentWillMount: function(){
     this.bindAsObject(new Firebase(rootUrl + 'items/'), 'items');
@@ -20,7 +27,8 @@ var App = React.createClass({
         <h2 className="text-center">
           To-Do List
         </h2>
-        <Header />
+        <Header itemsStore={this.firebaseRefs.items} />
+        <List items={this.state.items} />
       </div>
     </div>
   }

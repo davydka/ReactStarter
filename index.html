@@ -1,6 +1,18 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
+
+  <style>
+    .content {
+      opacity: 0;
+      transition: opacity 1s ease-in;
+    }
+
+    .loaded {
+      min-height: 30px;
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
   <div class="container">

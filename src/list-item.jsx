@@ -24,12 +24,13 @@ module.exports = React.createClass({
 				<input
 					type="checkbox"
 					checked={this.state.done}
-					onChange={this.handeleDoneChange}
+					onChange={this.handleDoneChange}
 					/>
 			</span>
 			<input
 				type="text"
 				className="form-control"
+				disabled={this.state.done}
 				value={this.state.text}
 				onChange={this.handleTextOnChange}
 				/>
@@ -45,7 +46,7 @@ module.exports = React.createClass({
 		</div>
 	},
 
-	handeleDoneChange: function(event){
+	handleDoneChange: function(event){
 		var update = {
 			done: event.target.checked
 		};
@@ -65,14 +66,37 @@ module.exports = React.createClass({
 		});
 	},
 
+	handleUndoClick: function(){
+		this.setState({
+			text: this.props.item.text,
+			textChanged: false
+		})
+	},
+
+	handleSaveClick: function(){
+		this.fb.update({
+			text: this.state.text
+		})
+
+		this.setState({
+			textChanged: false
+		})
+	},
+
 	changesButtons: function(){
 		if(!this.state.textChanged){
 			return null;
 		} else {
-			return <span>
-				<button className="btn btn-default">Save</button>
-				<button className="btn btn-default">Undo</button>
-			</span>
+			return [
+				<button
+					className="btn btn-default"
+					onClick={this.handleSaveClick}
+					>Save</button>,
+				<button
+					className="btn btn-default"
+					onClick={this.handleUndoClick}
+					>Undo</button>
+			]
 		}
 	}
 })

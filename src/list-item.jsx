@@ -7,7 +7,8 @@ module.exports = React.createClass({
 	getInitialState: function(){
 		return {
 			text: this.props.item.text,
-			done: this.props.item.done
+			done: this.props.item.done,
+			textChanged: false
 
 		}
 	},
@@ -30,9 +31,14 @@ module.exports = React.createClass({
 				type="text"
 				className="form-control"
 				value={this.state.text}
+				onChange={this.handleTextOnChange}
 				/>
 			<span className="input-group-btn">
-				<button className="btn btn-default">
+				{this.changesButtons()}
+				<button
+					className="btn btn-default"
+					onClick={this.handleOnDeleteClick}
+					>
 					Delete
 				</button>
 			</span>
@@ -46,5 +52,27 @@ module.exports = React.createClass({
 
 		this.setState(update);
 		this.fb.update(update)
+	},
+
+	handleOnDeleteClick: function(event){
+		this.fb.remove();
+	},
+
+	handleTextOnChange: function(event){
+		this.setState({
+			text: event.target.value,
+			textChanged: true
+		});
+	},
+
+	changesButtons: function(){
+		if(!this.state.textChanged){
+			return null;
+		} else {
+			return <span>
+				<button className="btn btn-default">Save</button>
+				<button className="btn btn-default">Undo</button>
+			</span>
+		}
 	}
 })
